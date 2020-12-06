@@ -1,0 +1,38 @@
+spring:
+    datasource:
+      driver-class-name: 'org.postgresql.Driver'
+      url: ${DB_URL}
+      username: ${DB_USER}
+      password: ${DB_PSW}
+    artemis:
+      host: ${MQ_URL}
+      port: ${MQ_PORT}
+      user: ${MQ_USER}
+      password: ${MQ_PSW}
+      mode: native
+
+app.basePath:
+order.url: ${ORDER_URL}
+
+active-mq:
+  order-created-topic: OrderCreated
+  payment-success-topic: PaymentSuccess
+  payment-reject-topic: PaymentReject
+
+#настройка actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+---
+#настройка для prometheus
+management:
+  metrics:
+    distribution:
+      percentiles[http.server.requests]: 0.5, 0.95, 0.99, 1
+      percentiles-histogram[http.server.requests]: true

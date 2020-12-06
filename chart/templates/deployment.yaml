@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bill-chart.fullname" . }}
+  labels:
+    {{- include "bill-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "bill-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "bill-chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image }}"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+#            - name: logging_level_root
+#              value: debug
+            - name: app_basePath
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: BASE_APP_URL
+            - name: ORDER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: ORDER_URL
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: DATABASE_URL
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: bill-secret
+                  key: DATABASE_USER
+            - name: DB_PSW
+              valueFrom:
+                secretKeyRef:
+                  name: bill-secret
+                  key: DATABASE_PSW
+            - name: MQ_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: MQ_URL
+            - name: MQ_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: MQ_PORT
+            - name: MQ_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: MQ_USER
+            - name: MQ_PSW
+              valueFrom:
+                secretKeyRef:
+                  name: bill-secret
+                  key: MQ_PSW

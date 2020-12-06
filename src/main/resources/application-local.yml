@@ -1,0 +1,18 @@
+server:
+  port: 8082
+
+spring:
+    datasource:
+      driver-class-name: 'org.postgresql.Driver'
+      url: jdbc:postgresql://localhost:5432/postgres?currentShema=bill
+      username: bill
+      password: qwerty123
+    artemis:
+      host: localhost
+      port: 61616
+      user: artemis
+      password: password
+      mode: native
+
+app:basePath: /
+order.url: http://localhost:8083

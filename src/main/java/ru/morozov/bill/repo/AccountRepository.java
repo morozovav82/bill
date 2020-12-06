@@ -1,0 +1,10 @@
+package ru.morozov.bill.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import ru.morozov.bill.entity.Account;
+
+import java.util.Optional;
+
+public interface AccountRepository extends JpaRepository<Account, Long> {
+    Optional<Account> findOneByUserId(Long userId);
+}
