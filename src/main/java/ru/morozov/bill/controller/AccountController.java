@@ -26,6 +26,11 @@ public class AccountController {
             throw new RuntimeException("Empty userId");
         }
 
+        Optional<Account> res = accountRepository.findOneByUserId(account.getUserId());
+        if (res.isPresent()) {
+            throw new IllegalArgumentException("Account for userId=" + account.getUserId() + " exists");
+        }
+
         return AccountMapper.convertAccountToAccountDto(
                 accountRepository.save(
                         AccountMapper.convertNewAccountDtoToAccount(account)
@@ -46,8 +51,8 @@ public class AccountController {
         }
     }
 
-    @PutMapping("/{userId}/put")
-    public ResponseEntity<Account> putMoney(@PathVariable("userId") Long userId, @RequestParam Float money) {
+    @PutMapping("/{userId}/depositMoney")
+    public ResponseEntity<Account> depositMoney(@PathVariable("userId") Long userId, @RequestParam Float money) {
         Optional<Account> res = accountRepository.findOneByUserId(userId);
         if (res.isPresent()) {
             Account account = res.get();

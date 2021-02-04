@@ -12,12 +12,12 @@ spring:
       mode: native
 
 app.basePath:
-order.url: ${ORDER_URL}
 
 active-mq:
-  order-created-topic: OrderCreated
-  payment-success-topic: PaymentSuccess
-  payment-reject-topic: PaymentReject
+  SagaMakePayment-topic: SagaMakePayment
+  SagaMakePaymentRollback-topic: SagaMakePaymentRollback
+  PaymentSuccessful-topic: PaymentSuccessful / PaymentRejected
+  PaymentRejected-topic: PaymentReject
 
 #настройка actuator
 management:

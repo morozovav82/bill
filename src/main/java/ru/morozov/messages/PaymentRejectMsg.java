@@ -1,15 +1,15 @@
-package ru.morozov.order.messages;
+package ru.morozov.messages;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
 
 @Getter
-@Setter
 @ToString
-public class OrderCreatedMsg implements Serializable {
+@AllArgsConstructor
+public class PaymentRejectMsg implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long orderId;

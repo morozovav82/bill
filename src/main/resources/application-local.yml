@@ -15,4 +15,3 @@ spring:
       mode: native
 
 app:basePath: /
-order.url: http://localhost:8083
