@@ -7,8 +7,7 @@ service:
   port: 9000
 
 appBasePath: '/bill'
-orderUrl: 'http://order-order-chart.morozovav.svc.cluster.local:9000'
-  
+
 postgresql:
   fullname: users-postgresql
   postgresqlDatabase: users
