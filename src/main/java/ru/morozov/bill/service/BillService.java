@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.morozov.bill.AccountMapper;
 import ru.morozov.bill.entity.Account;
-import ru.morozov.messages.PaymentRejectMsg;
+import ru.morozov.messages.PaymentRejectedMsg;
 import ru.morozov.messages.PaymentSuccessfulMsg;
 import ru.morozov.bill.producer.BillProducer;
 import ru.morozov.bill.repo.AccountRepository;
@@ -44,7 +44,7 @@ public class BillService {
                 log.warn("Not enough money");
 
                 //send message to MQ
-                billProducer.sendPaymentRejectedMessage(new PaymentRejectMsg(orderId));
+                billProducer.sendPaymentRejectedMessage(new PaymentRejectedMsg(orderId));
             }
         } else {
             throw new RuntimeException("Account not found by user. OrderId=" + orderId + ", UserId=" + userId);

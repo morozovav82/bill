@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
-import ru.morozov.messages.PaymentRejectMsg;
+import ru.morozov.messages.PaymentRejectedMsg;
 import ru.morozov.messages.PaymentSuccessfulMsg;
 
 @Component
@@ -35,7 +35,7 @@ public class BillProducer {
         sendMessage(paymentSuccessfulTopic, message);
     }
 
-    public void sendPaymentRejectedMessage(PaymentRejectMsg message){
+    public void sendPaymentRejectedMessage(PaymentRejectedMsg message){
         sendMessage(paymentRejectedTopic, message);
     }
 }
