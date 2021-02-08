@@ -48,7 +48,7 @@ spec:
           - "-c"
           - |
             psql $DATABASE_URI <<'EOF'
-              drop table if exists accounts;
+              --drop table if exists accounts;
               create table accounts (id serial not null, user_id int not null, balance float);
             EOF
 

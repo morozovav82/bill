@@ -16,8 +16,8 @@ app.basePath:
 active-mq:
   SagaMakePayment-topic: SagaMakePayment
   SagaMakePaymentRollback-topic: SagaMakePaymentRollback
-  PaymentSuccessful-topic: PaymentSuccessful / PaymentRejected
-  PaymentRejected-topic: PaymentReject
+  PaymentSuccessful-topic: PaymentSuccessful
+  PaymentRejected-topic: PaymentRejected
 
 #настройка actuator
 management:
