@@ -1,9 +1,9 @@
 package ru.morozov.bill.producer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 import ru.morozov.messages.PaymentRejectedMsg;
 import ru.morozov.messages.PaymentSuccessfulMsg;
@@ -13,7 +13,7 @@ import ru.morozov.messages.PaymentSuccessfulMsg;
 public class BillProducer {
 
     @Autowired
-    private JmsTemplate jmsTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     @Value("${active-mq.PaymentSuccessful-topic}")
     private String paymentSuccessfulTopic;
@@ -24,7 +24,7 @@ public class BillProducer {
     private void sendMessage(String topic, Object message){
         try{
             log.info("Attempting send message to Topic: "+ topic);
-            jmsTemplate.convertAndSend(topic, message);
+            rabbitTemplate.convertAndSend(topic, message);
             log.info("Message sent: {}", message);
         } catch(Exception e){
             log.error("Failed to send message", e);

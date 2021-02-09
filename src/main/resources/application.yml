@@ -4,12 +4,11 @@ spring:
       url: ${DB_URL}
       username: ${DB_USER}
       password: ${DB_PSW}
-    artemis:
+    rabbitmq:
       host: ${MQ_URL}
       port: ${MQ_PORT}
-      user: ${MQ_USER}
+      username: ${MQ_USER}
       password: ${MQ_PSW}
-      mode: native
 
 app.basePath:
 
