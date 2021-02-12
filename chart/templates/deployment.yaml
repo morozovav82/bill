@@ -67,3 +67,13 @@ spec:
                 secretKeyRef:
                   name: bill-secret
                   key: MQ_PSW
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bill-config
+                  key: REDIS_PORT

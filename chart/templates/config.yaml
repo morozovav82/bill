@@ -8,6 +8,8 @@ data:
   MQ_URL: {{ .Values.mq.url }}
   MQ_PORT: {{ .Values.mq.port | quote }}
   MQ_USER: {{ .Values.mq.username }}
+  REDIS_HOST: {{ .Values.redis.host }}
+  REDIS_PORT: {{ .Values.redis.port | quote }}
 ---
 apiVersion: v1
 kind: Secret

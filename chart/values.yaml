@@ -1,6 +1,6 @@
 replicaCount: 1
 
-image: morozovav82/bill:1.1
+image: morozovav82/bill:1.2
 
 service:
   type: NodePort
@@ -21,6 +21,10 @@ mq:
   port: 5672
   username: rabbit
   password: rabbit
+
+redis:
+  host: redis-master.morozovav.svc.cluster.local
+  port: 6379
 
 ingress:
   enabled: true

@@ -14,6 +14,9 @@ spring:
       port: 5672
       username: rabbit
       password: rabbit
+    redis:
+      host: localhost
+      port: 6379
 
 
 app.basePath: /bill
