@@ -50,6 +50,9 @@ spec:
             psql $DATABASE_URI <<'EOF'
               --drop table if exists accounts;
               create table accounts (id serial not null, user_id int not null, balance float);
+
+              --drop table if exists bill_messages;
+              create table bill_messages (id serial not null, sent timestamp, topic varchar(100), routing_key varchar(100), message text, class_name varchar(500));
             EOF
 
   backoffLimit: 0

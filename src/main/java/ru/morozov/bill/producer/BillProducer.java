@@ -1,10 +1,10 @@
 package ru.morozov.bill.producer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.morozov.bill.service.MessageService;
 import ru.morozov.messages.PaymentRejectedMsg;
 import ru.morozov.messages.PaymentSuccessfulMsg;
 
@@ -13,7 +13,7 @@ import ru.morozov.messages.PaymentSuccessfulMsg;
 public class BillProducer {
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private MessageService messageService;
 
     @Value("${active-mq.PaymentSuccessful-topic}")
     private String paymentSuccessfulTopic;
@@ -21,21 +21,11 @@ public class BillProducer {
     @Value("${active-mq.PaymentRejected-topic}")
     private String paymentRejectedTopic;
 
-    private void sendMessage(String topic, Object message){
-        try{
-            log.info("Attempting send message to Topic: "+ topic);
-            rabbitTemplate.convertAndSend(topic, message);
-            log.info("Message sent: {}", message);
-        } catch(Exception e){
-            log.error("Failed to send message", e);
-        }
-    }
-
     public void sendPaymentSuccessfulMessage(PaymentSuccessfulMsg message){
-        sendMessage(paymentSuccessfulTopic, message);
+        messageService.scheduleSentMessage(paymentSuccessfulTopic, null, message, PaymentSuccessfulMsg.class);
     }
 
     public void sendPaymentRejectedMessage(PaymentRejectedMsg message){
-        sendMessage(paymentRejectedTopic, message);
+        messageService.scheduleSentMessage(paymentRejectedTopic, null, message, PaymentRejectedMsg.class);
     }
 }
