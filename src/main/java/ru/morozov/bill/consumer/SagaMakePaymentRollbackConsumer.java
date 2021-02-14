@@ -20,7 +20,7 @@ public class SagaMakePaymentRollbackConsumer {
     public void receive(SagaMakePaymentRollbackMsg msg) {
         log.info("Received Message: {}", msg.toString());
         try {
-            billService.depositMoney(msg.getOrderId(), msg.getUserId(), msg.getPriceTotal());
+            billService.depositMoney(msg.getUserId(), msg.getPriceTotal());
         } catch (Exception e) {
             log.error("Failed to save bill", e);
         }

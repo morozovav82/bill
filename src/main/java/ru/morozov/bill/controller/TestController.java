@@ -1,9 +1,11 @@
 package ru.morozov.bill.controller;
 
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.morozov.bill.service.MessageService;
 import ru.morozov.messages.SagaMakePaymentMsg;
 import ru.morozov.messages.SagaMakePaymentRollbackMsg;
+import ru.morozov.messages.UserRegisteredMsg;
 
 @RestController
 @RequestMapping("/tests")
@@ -27,6 +30,9 @@ public class TestController {
     @Value("${active-mq.SagaMakePaymentRollback-topic}")
     private String sagaMakePaymentRollbackTopic;
 
+    @Value("${active-mq.UserRegistered-exchange}")
+    private String userRegisteredExchange;
+
     @PostMapping("/sendSagaMakePaymentMsg")
     public void sendSagaMakePaymentMsg(@RequestBody SagaMakePaymentMsg message) {
         messageService.scheduleSentMessage(sagaMakePaymentTopic, null, message, SagaMakePaymentMsg.class);
@@ -35,5 +41,11 @@ public class TestController {
     @PostMapping("/sendSagaMakePaymentRollbackMsg")
     public void sendSagaMakePaymentRollbackMsg(@RequestBody SagaMakePaymentRollbackMsg message) {
         messageService.scheduleSentMessage(sagaMakePaymentRollbackTopic, null, message, SagaMakePaymentRollbackMsg.class);
+    }
+
+    @PostMapping("/sendUserRegisteredMessage")
+    public void sendUserRegisteredMessage(@RequestBody UserRegisteredMsg message) {
+        Assert.notNull(message.getUserId(), "Empty userId");
+        messageService.scheduleSentMessage(userRegisteredExchange, "default", message, UserRegisteredMsg.class);
     }
 }

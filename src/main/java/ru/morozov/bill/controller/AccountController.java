@@ -1,69 +1,46 @@
 package ru.morozov.bill.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.morozov.bill.AccountMapper;
-import ru.morozov.bill.dto.AccountDto;
-import ru.morozov.bill.dto.NewAccountDto;
 import ru.morozov.bill.entity.Account;
-import ru.morozov.bill.repo.AccountRepository;
-
-import java.util.Optional;
+import ru.morozov.bill.exceptions.NotFoundException;
+import ru.morozov.bill.service.BillService;
 
 @RestController()
 @RequestMapping("/account")
 @RequiredArgsConstructor
+@Slf4j
 public class AccountController {
 
-    private final AccountRepository accountRepository;
-
-    @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AccountDto createAccount(@RequestBody NewAccountDto account) {
-        if (account.getUserId() == null || account.getUserId() < 1) {
-            throw new RuntimeException("Empty userId");
-        }
-
-        Optional<Account> res = accountRepository.findOneByUserId(account.getUserId());
-        if (res.isPresent()) {
-            throw new IllegalArgumentException("Account for userId=" + account.getUserId() + " exists");
-        }
-
-        return AccountMapper.convertAccountToAccountDto(
-                accountRepository.save(
-                        AccountMapper.convertNewAccountDtoToAccount(account)
-                )
-        );
-    }
+    private final BillService billService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<Account> getAccount(@PathVariable("userId") Long userId) {
-        Optional<Account> res = accountRepository.findOneByUserId(userId);
-        if (res.isPresent()) {
+        try {
             return new ResponseEntity(
-                    AccountMapper.convertAccountToAccountDto(res.get()),
+                    billService.findByUserId(userId),
                     HttpStatus.OK
             );
-        } else {
+        } catch (NotFoundException e) {
+            log.warn(e.getMessage());
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{userId}/depositMoney")
     public ResponseEntity<Account> depositMoney(@PathVariable("userId") Long userId, @RequestParam Float money) {
-        Optional<Account> res = accountRepository.findOneByUserId(userId);
-        if (res.isPresent()) {
-            Account account = res.get();
-            account.setBalance(account.getBalance() + money);
-            accountRepository.save(account);
+        try {
+            billService.depositMoney(userId, money);
 
             return new ResponseEntity(
-                    AccountMapper.convertAccountToAccountDto(account),
+                    billService.findByUserId(userId),
                     HttpStatus.OK
             );
-        } else {
+        } catch (NotFoundException e) {
+            log.warn(e.getMessage());
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }

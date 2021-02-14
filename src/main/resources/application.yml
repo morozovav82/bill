@@ -20,6 +20,8 @@ active-mq:
   SagaMakePaymentRollback-topic: SagaMakePaymentRollback
   PaymentSuccessful-topic: PaymentSuccessful
   PaymentRejected-topic: PaymentRejected
+  UserRegistered-exchange: UserRegisteredExchange
+  CreateAccount-topic: CreateAccount
 
 #настройка actuator
 management:

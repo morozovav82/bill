@@ -1,6 +1,10 @@
 package ru.morozov.bill.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +24,12 @@ public class MqConfig {
     @Value("${active-mq.PaymentRejected-topic}")
     private String paymentRejectedTopic;
 
+    @Value("${active-mq.UserRegistered-exchange}")
+    private String userRegisteredExchange;
+
+    @Value("${active-mq.CreateAccount-topic}")
+    private String createAccountTopic;
+
     @Bean
     public Queue sagaMakePaymentQueue() {
         return new Queue(sagaMakePaymentTopic);
@@ -38,5 +48,20 @@ public class MqConfig {
     @Bean
     public Queue paymentRejectedQueue() {
         return new Queue(paymentRejectedTopic);
+    }
+
+    @Bean
+    TopicExchange userRegisteredExchange() {
+        return new TopicExchange(userRegisteredExchange);
+    }
+
+    @Bean
+    public Queue createAccountQueue() {
+        return new Queue(createAccountTopic);
+    }
+
+    @Bean
+    Binding binding(@Qualifier("createAccountQueue") Queue queue, @Qualifier("userRegisteredExchange") TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with("default");
     }
 }
