@@ -23,7 +23,7 @@ public class CreateAccountConsumer {
     public void receive(UserRegisteredMsg msg) {
         log.info("Received Message: {}", msg.toString());
 
-        String idempotenceKey = msg.getUserId().toString();
+        String idempotenceKey = "CreateAccount_" + msg.getUserId().toString();
         log.info("idempotenceKey={}", idempotenceKey);
 
         //idempotence check

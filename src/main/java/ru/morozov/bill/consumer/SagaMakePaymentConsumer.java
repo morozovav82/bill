@@ -22,7 +22,7 @@ public class SagaMakePaymentConsumer {
     public void receive(SagaMakePaymentMsg msg) {
         log.info("Received Message: {}", msg.toString());
 
-        String idempotenceKey = msg.getOrderId().toString();
+        String idempotenceKey = "SagaMakePayment_" + msg.getOrderId().toString();
         log.info("idempotenceKey={}", idempotenceKey);
 
         //idempotence check
