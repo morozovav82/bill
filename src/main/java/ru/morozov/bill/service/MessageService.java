@@ -46,7 +46,7 @@ public class MessageService {
 
     @Scheduled(fixedDelay = 100L)
     public void sentMessages() {
-        log.info("Start sentMessages");
+        log.debug("Start sentMessages");
 
         List<Message> messages = messageRepository.findBySentIsNullOrderById();
         messages.forEach(i -> {

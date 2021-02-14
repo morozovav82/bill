@@ -3,12 +3,14 @@ package ru.morozov.bill.producer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.morozov.bill.service.MessageService;
 import ru.morozov.messages.PaymentRejectedMsg;
 import ru.morozov.messages.PaymentSuccessfulMsg;
 
-@Component
+@Service
 @Slf4j
 public class BillProducer {
 
@@ -25,6 +27,7 @@ public class BillProducer {
         messageService.scheduleSentMessage(paymentSuccessfulTopic, null, message, PaymentSuccessfulMsg.class);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void sendPaymentRejectedMessage(PaymentRejectedMsg message){
         messageService.scheduleSentMessage(paymentRejectedTopic, null, message, PaymentRejectedMsg.class);
     }
