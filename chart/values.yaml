@@ -1,6 +1,6 @@
 replicaCount: 1
 
-image: morozovav82/bill:1.2
+image: morozovav82/bill:2.0
 
 service:
   type: NodePort
