@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisRepositoryImpl implements RedisRepository {
 
-    private static final String HASH_KEY = "main";
+    private static final String KEY = "BILL";
     private final RedisTemplate<String, Object> redisTemplate;
     private HashOperations hashOperations;
 
@@ -23,12 +23,12 @@ public class RedisRepositoryImpl implements RedisRepository {
 
     @Override
     public void add(String key, Object value) {
-        hashOperations.put(key, HASH_KEY, value);
-        redisTemplate.expire(key, 30, TimeUnit.SECONDS);
+        hashOperations.put(KEY, key, value);
+        redisTemplate.expire(RedisRepositoryImpl.KEY, 30, TimeUnit.SECONDS);
     }
 
     @Override
     public Object find(String key) {
-        return hashOperations.get(key, HASH_KEY);
+        return hashOperations.get(KEY, key);
     }
 }
