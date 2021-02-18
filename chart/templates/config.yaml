@@ -5,6 +5,7 @@ metadata:
 data:
   BASE_APP_URL: {{ .Values.appBasePath }}
   DATABASE_URL: {{ printf "jdbc:postgresql://%s:%s/%s" (include "postgresql.fullname" .) .Values.postgresql.service.port .Values.postgresql.postgresqlDatabase  | quote }}
+  USERS_URL: {{ .Values.usersUrl }}
   MQ_URL: {{ .Values.mq.url }}
   MQ_PORT: {{ .Values.mq.port | quote }}
   MQ_USER: {{ .Values.mq.username }}

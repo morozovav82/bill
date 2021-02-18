@@ -14,6 +14,7 @@ spring:
       port: ${REDIS_PORT}
 
 app.basePath:
+users.url: ${USERS_URL}
 
 active-mq:
   SagaMakePayment-topic: SagaMakePayment
