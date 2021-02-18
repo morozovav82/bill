@@ -12,22 +12,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MqConfig {
 
-    @Value("${active-mq.SagaMakePayment-topic}")
+    @Value("${mq.SagaMakePayment-topic}")
     private String sagaMakePaymentTopic;
 
-    @Value("${active-mq.SagaMakePaymentRollback-topic}")
+    @Value("${mq.SagaMakePaymentRollback-topic}")
     private String sagaMakePaymentRollbackTopic;
     
-    @Value("${active-mq.PaymentSuccessful-topic}")
+    @Value("${mq.PaymentSuccessful-topic}")
     private String paymentSuccessfulTopic;
 
-    @Value("${active-mq.PaymentRejected-topic}")
+    @Value("${mq.PaymentRejected-topic}")
     private String paymentRejectedTopic;
 
-    @Value("${active-mq.UserRegistered-exchange}")
+    @Value("${mq.UserRegistered-exchange}")
     private String userRegisteredExchange;
 
-    @Value("${active-mq.CreateAccount-topic}")
+    @Value("${mq.CreateAccount-topic}")
     private String createAccountTopic;
 
     @Bean

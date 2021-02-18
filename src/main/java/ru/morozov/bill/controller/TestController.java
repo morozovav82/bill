@@ -24,13 +24,13 @@ public class TestController {
     @Autowired
     private MessageService messageService;
 
-    @Value("${active-mq.SagaMakePayment-topic}")
+    @Value("${mq.SagaMakePayment-topic}")
     private String sagaMakePaymentTopic;
 
-    @Value("${active-mq.SagaMakePaymentRollback-topic}")
+    @Value("${mq.SagaMakePaymentRollback-topic}")
     private String sagaMakePaymentRollbackTopic;
 
-    @Value("${active-mq.UserRegistered-exchange}")
+    @Value("${mq.UserRegistered-exchange}")
     private String userRegisteredExchange;
 
     @PostMapping("/sendSagaMakePaymentMsg")

@@ -11,7 +11,7 @@ import ru.morozov.messages.SagaMakePaymentRollbackMsg;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-@RabbitListener(queues = "${active-mq.SagaMakePaymentRollback-topic}")
+@RabbitListener(queues = "${mq.SagaMakePaymentRollback-topic}")
 public class SagaMakePaymentRollbackConsumer {
 
     private final BillService billService;

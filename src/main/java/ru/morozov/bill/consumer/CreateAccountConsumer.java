@@ -13,7 +13,7 @@ import ru.morozov.messages.UserRegisteredMsg;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-@RabbitListener(queues = "${active-mq.CreateAccount-topic}")
+@RabbitListener(queues = "${mq.CreateAccount-topic}")
 public class CreateAccountConsumer {
 
     private final BillService billService;

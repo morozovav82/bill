@@ -16,7 +16,7 @@ spring:
 app.basePath:
 users.url: ${USERS_URL}
 
-active-mq:
+mq:
   SagaMakePayment-topic: SagaMakePayment
   SagaMakePaymentRollback-topic: SagaMakePaymentRollback
   PaymentSuccessful-topic: PaymentSuccessful
