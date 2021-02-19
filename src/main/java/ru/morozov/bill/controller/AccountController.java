@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.morozov.bill.entity.Account;
 import ru.morozov.bill.exceptions.NotFoundException;
 import ru.morozov.bill.service.BillService;
+import ru.morozov.bill.utils.AuthUtils;
 
 @RestController()
 @RequestMapping("/account")
@@ -32,6 +33,10 @@ public class AccountController {
 
     @PutMapping("/{userId}/depositMoney")
     public ResponseEntity<Account> depositMoney(@PathVariable("userId") Long userId, @RequestParam Float money) {
+        if (!AuthUtils.getCurrentUserId().equals(userId)) {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+
         try {
             billService.depositMoney(userId, money);
 

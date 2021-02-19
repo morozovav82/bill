@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +19,5 @@ public class UserDto implements Serializable {
     private String lastname;
     private String email;
     private String phone;
+    private List<String> roles;
 }

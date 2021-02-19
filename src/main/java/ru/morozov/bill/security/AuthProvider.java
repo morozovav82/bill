@@ -7,10 +7,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import ru.morozov.bill.repo.RedisRepository;
-
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +49,7 @@ public class AuthProvider implements AuthenticationProvider {
             throw new AuthenticationCredentialsNotFoundException("User not found by ID=" + userId);
         }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(cacheUser, null, Collections.emptyList());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(cacheUser, null, AuthorityUtils.createAuthorityList(cacheUser.getRoles().toArray(new String[cacheUser.getRoles().size()])));
 
         return token;
     }

@@ -48,11 +48,13 @@ spec:
           - "-c"
           - |
             psql $DATABASE_URI <<'EOF'
-              --drop table if exists accounts;
               create table if not exists accounts (id serial not null, user_id int not null, balance float);
+              alter table accounts add constraint accounts_pk unique (id);
+              create index accounts_user_id_index on accounts (user_id);
 
-              --drop table if exists bill_messages;
               create table if not exists bill_messages (id serial not null, sent timestamp, topic varchar(100), routing_key varchar(100), message text, class_name varchar(500));
+              alter table bill_messages add constraint bill_messages_pk unique (id);
+              create index bill_messages_sent_index on bill_messages (sent);
             EOF
 
   backoffLimit: 0
